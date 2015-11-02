@@ -1,5 +1,4 @@
 Travel Agent Module for Silverstripe
-Phase I
 
 - Pages with Image Upload called TravelAgentPage
 - Resort Information add via pages
@@ -19,16 +18,16 @@ After Install:
 - /dev/build
 - ?flush=all
 - Login to Admin
--- Common Data
--- Create Pages
---- Book Now Page
---- Resort Pages
---- Safari Pages
---- Travel Agent Pages
---- City Hotel Pages
---- Resort Listing Page
---- Safari List Page
---- City Hotel List Page
+  - Common Data
+  - Create Pages
+    - Book Now Page
+    - Resort Pages
+    - Safari Pages
+    - Travel Agent Pages
+    - City Hotel Pages
+    - Resort Listing Page
+    - Safari List Page
+    - City Hotel List Page
 
 Create Your Own Template/Use /templates/Layout as example and override those with your own template
 
