@@ -1,0 +1,17 @@
+{
+    "name": "maldicore/travelagent",
+    "description": "Travel Agent Website Module for silverstripe.",
+    "type": "silverstripe-module",
+    "keywords": ["silverstripe", "travelagent", "travel"],
+	"license": "BSD-3-Clause",
+    "authors": [
+    {
+        "name": "Yusuf Abdulla Shunan",
+        "email": "shunan@maldicore.com"
+    }],
+    "require": {
+        "silverstripe/framework": "~3.1",
+        "colymba/gridfield-bulk-editing-tools": "dev-master"
+    }
+    
+}
