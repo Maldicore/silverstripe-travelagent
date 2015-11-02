@@ -14,13 +14,6 @@ Phase I
 - Booking Request Data Object
 - Custom Contact Page for contact information including social networks
 
-TODO
-
-- Online Reservation/Book Now with Email and Save to Database
-- Contact Us Template & Submit Form
-- HomePage Controller
-- Promotion and Special Offers Pages
-
 After Install:
 
 - /dev/build
@@ -36,3 +29,12 @@ After Install:
 --- Resort Listing Page
 --- Safari List Page
 --- City Hotel List Page
+
+Create Your Own Template/Use /templates/Layout as example and override those with your own template
+
+TODO
+
+- Online Reservation/Book Now with Email and Save to Database
+- Contact Us Template & Submit Form
+- HomePage Controller
+- Promotion and Special Offers Pages
