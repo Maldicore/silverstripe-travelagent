@@ -2,7 +2,7 @@
 class SafariPage extends Page {
 
 	private static $db = array(
-        'NoOfRooms'         => 'Decimal',
+        'NoOfRooms'         => 'Int',
         'Rating'			=> 'Decimal',
         'inSlide'			=> 'Boolean',
         'Featured'			=> 'Boolean'

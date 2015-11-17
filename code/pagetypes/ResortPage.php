@@ -2,7 +2,7 @@
 class ResortPage extends Page {
 
 	private static $db = array(
-		'NoOfRooms'			=> 'Decimal',
+		'NoOfRooms'			=> 'Int',
 		'AirportDistance'	=> 'Varchar',
 		'Rating'			=> 'Decimal',
 		'InSide'			=> 'Boolean',

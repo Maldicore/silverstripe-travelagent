@@ -3,7 +3,7 @@ class CityHotelPage extends Page {
 
 	private static $db = array(
 		'Name'				=> 'Varchar',
-		'NoOfRooms'			=> 'Decimal',
+		'NoOfRooms'			=> 'Int',
 		'AirportDistance'	=> 'Varchar',
 		'Rating'			=> 'Decimal',
 		'InSide'			=> 'Boolean',
