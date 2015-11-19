@@ -15,7 +15,8 @@ class CityHotelPage extends Page {
 		'Atoll'				=> 'Atolls',
 		'Island'			=> 'Islands',
 		'Category'			=> 'Categories',
-		'TransferType'		=> 'TransferTypes'
+		'TransferType'		=> 'TransferTypes',
+		'FeaturedPhoto'		=> 'Image'
 		);
 
 	private static $has_many = array(
@@ -46,6 +47,10 @@ class CityHotelPage extends Page {
 	    $fields->insertBefore(CheckboxField::create("InSide")->setTitle("Show City Hotel in Slide Show"),'Content');
 	    $fields->insertBefore(CheckboxField::create("Featured")->setTitle("Show City Hotel in Featured List"),'Content');
 	    $fields->insertBefore(TextField::create("Cordinates")->setTitle("Map Cordinates, Longitute & Latitude, separated by comma"),'Content');
+
+	    $imgfield = UploadField::create('FeaturedPhoto')->setTitle("Default Cover Photo");
+        $imgfield->getValidator()->allowedExtensions = array('jpg','jpeg','gif','png');
+    	$fields->insertBefore($imgfield, 'Content');
 
         $defaultTag = $this->Tags()->column('ID');
         // print_r($defaultTag);

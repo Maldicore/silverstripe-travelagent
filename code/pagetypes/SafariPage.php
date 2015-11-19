@@ -9,7 +9,8 @@ class SafariPage extends Page {
 	);
 
 	private static $has_one = array(
-		'Category'			=> 'Categories'
+		'Category'			=> 'Categories',
+        'FeaturedPhoto'     => 'Image'
 	);
 
 	private static $has_many = array(
@@ -17,7 +18,7 @@ class SafariPage extends Page {
 		'Dining'			=> 'Dining',
 		'Facilities'		=> 'Facilities',
 		'Activities'		=> 'Activities',
-        'Routes'            => 'Routes',
+        'Routes'            => 'Routes'
 	);
 
 	private static $many_many = array(
@@ -37,6 +38,10 @@ class SafariPage extends Page {
 	    $fields->addFieldToTab('Root.Main', new DropdownField('CategoryID','Category', Categories::get()->map('ID', 'Name')),'Content'); 
 	    $fields->insertBefore(CheckboxField::create("InSide")->setTitle("Show Safari in Slide Show"),'Content');
 	    $fields->insertBefore(CheckboxField::create("Featured")->setTitle("Show Safari in Featured List"),'Content');
+
+        $imgfield = UploadField::create('FeaturedPhoto')->setTitle("Default Cover Photo");
+        $imgfield->getValidator()->allowedExtensions = array('jpg','jpeg','gif','png');
+        $fields->insertBefore($imgfield, 'Content');
 
         $defaultTag = $this->Tags()->column('ID');
         $tagMap = Tags::get()->map('ID','Name')->toArray();

@@ -14,7 +14,8 @@ class ResortPage extends Page {
 		'Atoll'				=> 'Atolls',
 		'Island'			=> 'Islands',
 		'Category'			=> 'Categories',
-		'TransferType'		=> 'TransferTypes'
+		'TransferType'		=> 'TransferTypes',
+		'FeaturedPhoto'		=> 'Image'
 		);
 
 	private static $has_many = array(
@@ -45,6 +46,11 @@ class ResortPage extends Page {
 	    $fields->insertBefore(CheckboxField::create("InSide")->setTitle("Show Resort in Slide Show"),'Content');
 	    $fields->insertBefore(CheckboxField::create("Featured")->setTitle("Show Resort in Featured List"),'Content');
 	    $fields->insertBefore(TextField::create("Cordinates")->setTitle("Map Cordinates, Longitute & Latitude, separated by comma"),'Content');
+
+   	    $imgfield = UploadField::create('FeaturedPhoto')->setTitle("Default Cover Photo");
+        $imgfield->getValidator()->allowedExtensions = array('jpg','jpeg','gif','png');
+    	$fields->insertBefore($imgfield, 'Content');
+
 
         $defaultTag = $this->Tags()->column('ID');
         $tagMap = Tags::get()->map('ID','Name')->toArray();
