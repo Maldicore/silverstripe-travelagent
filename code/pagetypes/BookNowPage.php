@@ -1,69 +1,127 @@
-<?php 
-class BookNowPage extends Page{
+<?php
+class BookNowPage extends Page {
+
+	private static $db = array(
+		'Info'	=>	"Varchar(255)"
+	);
+
+	private static $has_one = array(
+	);
+
+	public function getCMSFields() {
+	    $fields = parent::getCMSFields();
+	    
+	    $fields->insertBefore(TextareaField::create("Info")->setTitle("Additional Info"),'Content');
+
+	    return $fields;
+	}
 
 }
+class BookNowPage_Controller extends Page_Controller {
 
-class BookNowPage_Controller extends Page_Controller{
+	/**
+	 * An array of actions that can be accessed via a request. Each array element should be an action name, and the
+	 * permissions or conditions required to allow the user to access it.
+	 *
+	 * <code>
+	 * array (
+	 *     'action', // anyone can access this action
+	 *     'action' => true, // same as above
+	 *     'action' => 'ADMIN', // you must have ADMIN permissions to access this action
+	 *     'action' => '->checkAction' // you can only access this action if $this->checkAction() returns true
+	 * );
+	 * </code>
+	 *
+	 * @var array
+	 */
+	private static $allowed_actions = array (
+	'book'
+	);
 
-	private static $allowed_actions = array ('Form');
-
-	public function init(){
+	public function init() {
 		parent::init();
+
 	}
 
-	public function Form() { 
-		// Retreive Form Fields
-		$form_action = new FieldList(
-			new FormAction('submit',"Book Now")
-			);
-		$form_validator = new RequiredFields('Name', 'Email');
+	public function book($request){
+		$type = $request['type'];
+		$property = $request['property'];
+		$room = $request['room'];
+		if($type && $property){
+			// TODO: check for allowed Types
+			// TODO: List of Resorts or CityHotels or Safaris
+			// TODO: check if the property exist
+			$prpertyExist = true;
 
-		$form = new Form($this, 'Form', singleton('BookingRequests')->getFrontEndFields(), $form_action, $form_validator); 
+			if($propertyExist){
+				// check if booking already exists
+				
+				// $bookCheck = BookingRequests::get()
+				// ->filter(array(
+				// 	'PropertyName' => $properyexist->Name,
+				// 	'FirstName' => $request['FirstName'],
+				// 	'LastName' => $request['LastName'],
+				// 	'ArrivalDate' => $request['ArrivalDate'],
+				// 	'ArrivalFlight' => $request['ArrivalFlight']
+				// ))->First();
 
-		return $form;
+				$bookExist = false;
+
+				if($bookExist){
+					Session::set('ActionStatus', 'danger');
+					Session::set('ActionMessage', 'You Already Have A Booking Request for ' . $properyexist->Name);
+					return $this->redirectBack();
+				} else {
+					// save the booking
+					// $res = new BookingRequests();
+					// $res->PropertyType = $request['prpertyType'];
+					// $res->PropertyName = $request['prpertyName'];
+					// TODO: rest of the fields
+					// $res->write();
+					Session::set('ActionStatus', 'success');
+					Session::set('ActionMessage', 'Your Booking is Saved');
+					return $this->redirectBack();
+				}
+			} else {
+				Session::set('ActionStatus', 'warning');
+				Session::set('ActionMessage', 'Property Not Found!');
+				return $this->redirectBack();
+			}
+		} else {
+			Session::set('ActionStatus', 'warning');
+			Session::set('ActionMessage', 'Property Not Found!');
+			return $this->redirectBack();
+		}
 	}
 
-	function submit($data, $form){
-		/* email the form data */
-		$config = SiteConfig::current_site_config(); 
-    	$site_email_address = $config->EmailAddress;
+	public function propertyType(){
+		$type = $this->getRequest()->getVar('type');
+		if($type){
+			return $type;
+		} else {
+			return 'Any';
+		}
+	}
 
-    	if(empty($site_email_address)){
-    		$site_email_address = "info@maldicore.com";
-    	}
+	public function propertyName(){
+		$name = $this->getRequest()->getVar('name');
+		if($name){
+			return $name;
+		} else {
+			return 'Any';
+		}
+	}
 
-        $email = new Email(); 
-        
-        $email->setTo($site_email_address); 
-        $email->setFrom($data['Email']); 
-        $email->setSubject("Booking Requestion from {$data["Name"]}"); 
-        
-        unset($data['url']);
-        unset($data['SecurityID']);
-        unset($data['action_submit']);
-    	
-    	$messageBody = "";
-    	foreach ($data as $key => $value) {
-    		if(!empty($value)){
-    			$messageBody = $messageBody . "<p><strong>". $key ."</strong> " . $value . "</p>";
-    		}
-    	}  
-        
-        $email->setBody($messageBody); 
-        $email->send(); 
-        
+	public function propertyRoom(){
+		$room = $this->getRequest()->getVar('room');
+		if($room){
+			return $room;
+		} else {
+			return 'Any';
+		}
+	}
 
-		/* save data to dataobject model */
-	
-		$form_data = new BookingRequests();
-		$form_data->update($data);
-		$form_data->write();
-
-		return array(
-            'Content' => '<p>Thank you for your reservation request.</p>',
-            'Form' => ''
-        );
+	public function countries(){
+		return Countries::get();
 	}
 }
-
- ?>
