@@ -1,71 +1,73 @@
 <?php
-class SafariPage extends Page {
+class SafariPage extends Page
+{
 
-	private static $db = array(
+    private static $db = array(
         'NoOfRooms'         => 'Int',
-        'Rating'			=> 'Decimal',
-        'inSlide'			=> 'Boolean',
-        'Featured'			=> 'Boolean'
-	);
+        'Rating'            => 'Decimal',
+        'inSlide'            => 'Boolean',
+        'Featured'            => 'Boolean'
+    );
 
-	private static $has_one = array(
-		'Category'			=> 'Categories',
+    private static $has_one = array(
+        'Category'            => 'Categories',
         'FeaturedPhoto'     => 'Image'
-	);
+    );
 
-	private static $has_many = array(
-		'Rooms'				=> 'Rooms',
-		'Dining'			=> 'Dining',
-		'Facilities'		=> 'Facilities',
-		'Activities'		=> 'Activities',
+    private static $has_many = array(
+        'Rooms'                => 'Rooms',
+        'Dining'            => 'Dining',
+        'Facilities'        => 'Facilities',
+        'Activities'        => 'Activities',
         'Routes'            => 'Routes'
-	);
+    );
 
-	private static $many_many = array(
-        'SafariImages'		=> 'Image',
+    private static $many_many = array(
+        'SafariImages'        => 'Image',
         'Tags'              => 'Tags',
         'HolidayTypes'      => 'HolidayTypes'
     );
 
 
-	public function getCMSFields() {
-	    $fields = parent::getCMSFields();
-	    
+    public function getCMSFields()
+    {
+        $fields = parent::getCMSFields();
+        
         $fields->dataFieldByName('Title')->setTitle('Safari Name');
-	    $fields->dataFieldByName('Content')->setTitle('Safari Introduction');
-	    $fields->insertBefore(NumericField::create("NoOfRooms")->setTitle("Total Number of Rooms"),'Content');
-	    $fields->insertBefore(NumericField::create("Rating")->setTitle("Star Rating"),'Content');
-	    $fields->addFieldToTab('Root.Main', new DropdownField('CategoryID','Category', Categories::get()->map('ID', 'Name')),'Content'); 
-	    $fields->insertBefore(CheckboxField::create("InSide")->setTitle("Show Safari in Slide Show"),'Content');
-	    $fields->insertBefore(CheckboxField::create("Featured")->setTitle("Show Safari in Featured List"),'Content');
+        $fields->dataFieldByName('Content')->setTitle('Safari Introduction');
+        $fields->insertBefore(NumericField::create("NoOfRooms")->setTitle("Total Number of Rooms"), 'Content');
+        $fields->insertBefore(NumericField::create("Rating")->setTitle("Star Rating"), 'Content');
+        $fields->addFieldToTab('Root.Main', new DropdownField('CategoryID', 'Category', Categories::get()->map('ID', 'Name')), 'Content');
+        $fields->insertBefore(CheckboxField::create("InSide")->setTitle("Show Safari in Slide Show"), 'Content');
+        $fields->insertBefore(CheckboxField::create("Featured")->setTitle("Show Safari in Featured List"), 'Content');
 
         $imgfield = UploadField::create('FeaturedPhoto')->setTitle("Default Cover Photo");
         $imgfield->getValidator()->allowedExtensions = array('jpg','jpeg','gif','png');
         $fields->insertBefore($imgfield, 'Content');
 
         $defaultTag = $this->Tags()->column('ID');
-        $tagMap = Tags::get()->map('ID','Name')->toArray();
-        $tagList = ListboxField::create('Tags','Tags')
-        	->setMultiple(true)
-        	->setSource($tagMap)
-        	->setDefaultItems($defaultTag);
-        $fields->addFieldToTab('Root.Main',$tagList,'Content');
+        $tagMap = Tags::get()->map('ID', 'Name')->toArray();
+        $tagList = ListboxField::create('Tags', 'Tags')
+            ->setMultiple(true)
+            ->setSource($tagMap)
+            ->setDefaultItems($defaultTag);
+        $fields->addFieldToTab('Root.Main', $tagList, 'Content');
 
         $defaultItem = $this->HolidayTypes()->column('ID');
-        $Map = HolidayTypes::get()->map('ID','Name')->toArray();
-        $List = ListboxField::create('HolidayTypes','Holiday Types')
-        	->setMultiple(true)
-        	->setSource($Map)
-        	->setDefaultItems($defaultItem);
-        $fields->addFieldToTab('Root.Main',$List,'Content');
+        $Map = HolidayTypes::get()->map('ID', 'Name')->toArray();
+        $List = ListboxField::create('HolidayTypes', 'Holiday Types')
+            ->setMultiple(true)
+            ->setSource($Map)
+            ->setDefaultItems($defaultItem);
+        $fields->addFieldToTab('Root.Main', $List, 'Content');
 
         $fields->addFieldToTab(
-        	'Root.SafariImages',
-        	$uploadField = new uploadField(
-        		$name = "SafariImages",
-        		$title = "Upload one or more images (max 10 in total)"
-        		)
-        	);
+            'Root.SafariImages',
+            $uploadField = new uploadField(
+                $name = "SafariImages",
+                $title = "Upload one or more images (max 10 in total)"
+                )
+            );
         $uploadField->setAllowedMaxFileNumber(10);
 
         $gridConfig = GridFieldConfig_RelationEditor::create();
@@ -86,12 +88,14 @@ class SafariPage extends Page {
         $fields->addFieldToTab("Root.Routes", $GridField);
 
         return $fields;
-      }
+    }
 }
 
-class SafariPage_Controller extends Page_Controller {
+class SafariPage_Controller extends Page_Controller
+{
 
-	public function init(){
-		parent::init();
-	}
+    public function init()
+    {
+        parent::init();
+    }
 }
