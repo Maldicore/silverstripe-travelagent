@@ -1,29 +1,27 @@
 <?php 
-class Routes extends DataObject{
-	
-	private static $db = array(
-		'Name'			=> 'Varchar',
-		'Info'			=> 'Text',
-	);
-
-	private static $has_one = array(
-		'Safari'		=> 'SafariPage',
-        'RouteMap'		=> 'File'
+class Routes extends DataObject
+{
+    
+    private static $db = array(
+        'Name'            => 'Varchar',
+        'Info'            => 'Text',
     );
 
-	private static $singular_name = "Route";
-	private static $plural_name = "Routes";
+    private static $has_one = array(
+        'Safari'        => 'SafariPage',
+        'RouteMap'        => 'File'
+    );
 
-	public function getCMSFields(){
-		
-		$fields = parent::getCMSFields();
+    private static $singular_name = "Route";
+    private static $plural_name = "Routes";
 
-		$fields->removeByName("SafariID");
-		$fields->dataFieldByName('Name')->SetTitle('Route Name');
+    public function getCMSFields()
+    {
+        $fields = parent::getCMSFields();
 
-		return $fields;
-	}
+        $fields->removeByName("SafariID");
+        $fields->dataFieldByName('Name')->SetTitle('Route Name');
 
- }
-
- ?>
+        return $fields;
+    }
+}
